@@ -44,7 +44,21 @@
                         <li>
                             @yield('lista')
                        </li>
+                       <li>
+                            <a href=""><i class="fa fa-bar-chart-o fa-fw"></i> Acciones
+                                <span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="{{url('registrarMateria')}}">Registrar Materia</a>
+                                </li>
+                                <li>
+                                    <a href="{{url('registrarPrograma')}}">Registrar Programa de Estudio</a>
+                                </li>
+                            </ul>
+                       </li>
                     </ul>
+                    
                 </div>
                 <!-- /.sidebar-collapse -->
             </div>

@@ -16,12 +16,13 @@ class materiasController extends Controller
     {
     	$carreras = Carrera::all();
     	$carrera = Carrera::find($id);	
-    	$materias = DB::table('materias_carreras')
+    	$programas = DB::table('materias_carreras')
             ->join('materias', 'materias_carreras.materia_id', '=', 'materias.id')
-            ->select('materias_carreras.carrera_id','materias.id','materias.nombre')
+            ->join('programas_estudio','programas_estudio.materia_id','=','materias.id')
+            ->select('programas_estudio.id','programas_estudio.clave','materias.id as materia_id','materias.nombre','programas_estudio.archivo','materias_carreras.carrera_id')
             ->where('materias_carreras.carrera_id','=',$id)
-            ->get();
-        return view('consultaMaterias', compact('materias','carrera','carreras'));
+            ->paginate(10);
+        return view('consultaMaterias', compact('programas','carrera','carreras'));
     }
 
     public function abrirPDF($id)
@@ -31,7 +32,7 @@ class materiasController extends Controller
                     ->get();
         $archivo = '';                
         foreach ($programas as $p) {
-            $archivo = $p->ruta_archivo;         
+            $archivo = $p->archivo;         
         }            
         
         if ($archivo!=''){
@@ -43,7 +44,34 @@ class materiasController extends Controller
         }
         else{
            $carreras = Carrera::all();
-           return view('archivoNoEncontrado',compact('carreras'));     
+           return ('Archivo No Encontrado');     
         }
+    }
+
+    public function editarPrograma($carrera_id, $id)
+    {
+        $carrera = Carrera::find($carrera_id); 
+        $carreras = Carrera::all();
+        $programa = ProgramaEstudio::where('materia_id','=',$id)
+                    ->first();
+                    
+        $materias = Materia::all();
+        return view('editarPrograma',compact('programa','materias','carreras','carrera'));
+    }
+
+    public function actualizarPrograma($id, Request $datos)
+    {
+        $programa = ProgramaEstudio::find($id);
+        $programa->clave=$datos->input('clave');
+        $programa->materia_id=$datos->input('materia');
+        $programa->save();
+
+        return back();   
+    }
+
+    public function registrarMateria()
+    {
+        $carreras = Carrera::all();
+        return view('registrarMateria',compact('carreras')); 
     }
 }
