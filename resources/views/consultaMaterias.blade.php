@@ -5,7 +5,7 @@
 @stop
 
 @section('lista')
-	<a href=""><i class="fa fa-bar-chart-o fa-fw"></i> Carreras
+	<a href=""><i class="fa fa-edit fa-fw"></i> Carreras
 			<span class="fa arrow"></span>
 	</a>
 	<ul class="nav nav-second-level">

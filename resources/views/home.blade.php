@@ -5,7 +5,7 @@
 @stop
 
 @section('lista')
-	<a href=""><i class="fa fa-bar-chart-o fa-fw"></i> Carreras
+	<a href=""><i class="fa fa-edit fa-fw"></i> Carreras
 			<span class="fa arrow"></span>
 	</a>
     <ul class="nav nav-second-level">
@@ -18,6 +18,10 @@
 @stop
 
 @section('contenido')
+  <h1>Sistema Materias del IT Culiacán</h1>
+  <p>Este es un sistema en el que se muestran algunas carreras que se ofrecen en el Instituto Tecnológico de Culiacán.
+  	 Aquí puedes las materias que forman parte de la retícula de cada carrera que está disponible. </p>
+
 @stop
 
 

@@ -6,7 +6,7 @@
 @stop
 
 @section('lista')
-	<a href=""><i class="fa fa-bar-chart-o fa-fw"></i> Carreras
+	<a href=""><i class="fa fa-edit fa-fw"></i> Carreras
 			<span class="fa arrow"></span>
 	</a>
 	<ul class="nav nav-second-level">
@@ -24,7 +24,7 @@
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 		<div class="form-group">
 			<label for="clave">Clave:</label>
-			<input value="" name="nombre" type="text" placeholder="Teclea la clave" class="form-control" required>
+			<input name="clave" type="text" placeholder="Teclea la clave" class="form-control" required>
 		</div>
 		<div class="form-group">
 			<label for="materia">Materia:</label>

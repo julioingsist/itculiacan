@@ -48,30 +48,10 @@ class materiasController extends Controller
         }
     }
 
-    public function editarPrograma($carrera_id, $id)
-    {
-        $carrera = Carrera::find($carrera_id); 
-        $carreras = Carrera::all();
-        $programa = ProgramaEstudio::where('materia_id','=',$id)
-                    ->first();
-                    
-        $materias = Materia::all();
-        return view('editarPrograma',compact('programa','materias','carreras','carrera'));
-    }
-
-    public function actualizarPrograma($id, Request $datos)
-    {
-        $programa = ProgramaEstudio::find($id);
-        $programa->clave=$datos->input('clave');
-        $programa->materia_id=$datos->input('materia');
-        $programa->save();
-
-        return back();   
-    }
-
     public function registrarMateria()
     {
         $carreras = Carrera::all();
         return view('registrarMateria',compact('carreras')); 
     }
+
 }
