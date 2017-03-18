@@ -39,19 +39,17 @@ class programasController extends Controller
      	$programa->archivo=$nombre;
      	$programa->save();
 
-        //$ruta = storage_path($archivo);
-        
-
-        return back();
+        $ruta=storage_path($nombre);
+        file_put_contents($ruta, $file);
         
      }
+
     public function actualizarPrograma($id, Request $datos)
     {
         $programa = ProgramaEstudio::find($id);
         $programa->clave=$datos->input('clave');
         $programa->materia_id=$datos->input('materia');
         $programa->save();
-
-         
+   
     }
 }
