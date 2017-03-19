@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('titulo')
-	<h2>Modificación de Programa de la Materia: {{$programa->clave}}</h2>
+	<h2>Modificación de Programa de la Materia: {{$materia->clave}}</h2>
 	<hr>
 @stop
 
@@ -20,17 +20,21 @@
 
 @section('contenido')
 <div class="col-xs-12">
-	<form action="{{url('/actualizarPrograma')}}/{{$programa->id}}" method="POST" enctype="multipart/form-data">
+	<form action="{{url('/actualizarMateria')}}/{{$materia->id}}" method="POST" enctype="multipart/form-data">
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 		<div class="form-group">
 			<label for="clave">Clave:</label>
-			<input value="{{$programa->clave}}" name="nombre" type="text" placeholder="Teclea la clave" class="form-control" required>
+			<input value="{{$materia->clave}}" name="nombre" type="text" placeholder="Teclea la clave" class="form-control" required>
 		</div>
 		<div class="form-group">
-			<label for="materia">Materia:</label>
+			<label for="clave">Nombre:</label>
+			<input value="{{$materia->nombre}}" name="nombre" type="text" placeholder="Teclea la clave" class="form-control" required>
+		</div>
+		<div class="form-group">
+			<label for="materia">Carrera:</label>
 			<select name="materia" class="form-control" required>
-			@foreach($materias as $m)
-				<option value="{{$m->id}}"@if ($m->id==$programa->materia_id) selected="selected" @endif >{{$m->nombre}}</option>
+			@foreach($materiaCarrera as $m)
+				<option value="{{$m->carrera_id}}" type='checkbox' checked>{{$m->carrera}}</option>
 			@endforeach	
 			</select>
 		</div>

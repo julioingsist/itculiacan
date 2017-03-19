@@ -23,19 +23,24 @@
 	<form action="{{url('/guardarMateria')}}" method="POST">
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 		<div class="form-group">
+			<label for="clave">Clave:</label>
+			<input name="clave" type="text" placeholder="Teclea la clave" class="form-control" required>
+		</div>
+		<div class="form-group">
 			<label for="nombre">Nombre:</label>
 			<input name="nombre" type="text" placeholder="Teclea nombre" class="form-control" required>
 		</div>
 		<div class="form-group">
-			<label for="carrera">Carrera:</label>
-			<select name="carrera" class="form-control" required>
-			<option value=""> Seleccione una carrera </option> 
-			@foreach($carreras as $c) 
-        		<option value="{{ $c->id}}"> {{ $c->nombre}} </option> 
-        	@endforeach	
-			</select>
+			<label for="carrera">Carrera(s):</label>
+			<br>
+			@foreach($carreras as $c)
+				<input name="{{$c->id}}" type="checkbox"> <label for="carrera">{{$c->nombre}}</label>
+			@endforeach
 		</div>
-		
+		<div class="form-group">
+			<label for="archivo">Archivo:</label>
+			<input value="" name="archivo" type="file"> 
+		</div>
 		<button type="submit" class="btn btn-primary">Registrar</button>
 		<a href="{{url('/')}}" class="btn btn-danger">Cancelar</a>
 	</form>

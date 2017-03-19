@@ -28,16 +28,16 @@
 			</tr>
 		</thead>
 		<tbody>
-		@foreach($programas as $p)
+		@foreach($materias as $m)
 			<tr>
-				<td>{{$p->clave}}</td>
-				<td>{{$p->nombre}}</td>
-				<td><a href="{{url('abrirPDF')}}/{{$p->id}}" target="_blank">{{$p->archivo}}</a></td>
+				<td>{{$m->clave}}</td>
+				<td>{{$m->nombre}}</td>
+				<td><a href="{{url('abrirPDF')}}/{{$m->programa_id}}" target="_blank">{{$m->archivo}}</a></td>
 				<td>
-					<a href="{{url('editarPrograma')}}/{{$carrera->id}}/{{$p->id}}" class="btn btn-xs btn-primary">
+					<a href="{{url('editarMateria')}}/{{$carrera->id}}/{{$m->id}}" class="btn btn-xs btn-primary">
 						<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 					</a>
-					<a href="{{url('eliminarPrograma')}}/{{$p->id}}" type="button" class="btn btn-danger btn-xs" >
+					<a href="{{url('eliminarMateria')}}/{{$m->id}}" type="button" class="btn btn-danger btn-xs" >
 					  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 					</button>
 				</td>
@@ -47,8 +47,7 @@
 		</tbody>
 	</table>
 	<div class="text-center">
-		{{$programas->links()}}	
+		{{$materias->links()}}	
 	</div>
 </div>
-	
 @stop

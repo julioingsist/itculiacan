@@ -53,7 +53,7 @@
                                     <a href="{{url('registrarMateria')}}">Registrar Materia</a>
                                 </li>
                                 <li>
-                                    <a href="{{url('registrarPrograma')}}">Registrar Programa de Estudio</a>
+                                    <a href="{{url('registrarCarrera')}}">Registrar Carrera</a>
                                 </li>
                             </ul>
                        </li>
