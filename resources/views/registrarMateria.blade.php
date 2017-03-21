@@ -20,7 +20,7 @@
 
 @section('contenido')
 <div class="col-xs-12">
-	<form action="{{url('/guardarMateria')}}" method="POST">
+	<form action="{{url('/guardarMateria')}}" method="POST" enctype="multipart/form-data">
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 		<div class="form-group">
 			<label for="clave">Clave:</label>
@@ -39,7 +39,7 @@
 		</div>
 		<div class="form-group">
 			<label for="archivo">Archivo:</label>
-			<input value="" name="archivo" type="file"> 
+			<input name="archivo" type="file"> 
 		</div>
 		<button type="submit" class="btn btn-primary">Registrar</button>
 		<a href="{{url('/')}}" class="btn btn-danger">Cancelar</a>

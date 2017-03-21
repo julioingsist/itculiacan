@@ -24,23 +24,25 @@
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 		<div class="form-group">
 			<label for="clave">Clave:</label>
-			<input value="{{$materia->clave}}" name="nombre" type="text" placeholder="Teclea la clave" class="form-control" required>
+			<input value="{{$materia->clave}}" name="clave" type="text" placeholder="Teclea la clave" class="form-control" required>
 		</div>
 		<div class="form-group">
 			<label for="clave">Nombre:</label>
 			<input value="{{$materia->nombre}}" name="nombre" type="text" placeholder="Teclea la clave" class="form-control" required>
 		</div>
 		<div class="form-group">
-			<label for="materia">Carrera:</label>
-			<select name="materia" class="form-control" required>
-			@foreach($materiaCarrera as $m)
-				<option value="{{$m->carrera_id}}" type='checkbox' checked>{{$m->carrera}}</option>
-			@endforeach	
-			</select>
+			<label for="carrera">Carrera(s):</label>
+			<br>
+			@foreach($carrerasIn as $c)
+				<input name="{{$c->id}}" type="checkbox" checked="checked"> <label for="carrera">{{$c->nombre}}</label>
+			@endforeach
+			@foreach($carrerasNotIn as $c)
+				<input name="{{$c->id}}" type="checkbox"> <label for="carrera">{{$c->nombre}}</label>
+			@endforeach
 		</div>
 		<div class="form-group">
-			<label for="archivo">Archivo:</label>
-			<input value="{{$programa->archivo}}" name="archivo" type="file"> 
+			<label for="archivo">Archivo: {{$archivo}}</label>
+			<input name="archivo" type="file"> 
 		</div>
 		<button type="submit" class="btn btn-primary">Guardar</button>
 		<a href="{{url('consultaMaterias')}}/{{$carrera->id}}" class="btn btn-danger">Cancelar</a>

@@ -18,7 +18,7 @@ Route::get('/registrarMateria','materiasController@registrarMateria');
 Route::post('/guardarMateria','materiasController@guardarMateria');
 Route::get('/editarMateria/{carrera_id}/{id}','materiasController@editarMateria');
 Route::post('/actualizarMateria/{id}','materiasController@actualizarMateria');
-Route::get('/eliminarMateria/{id}','materiasController@eliminarMateria');
+Route::get('/eliminarMateria/{carrera}/{id}','materiasController@eliminarMateria');
 
 #Rutas para las carreras
 Route::get('/registrarCarrera','carrerasController@registrarCarrera');

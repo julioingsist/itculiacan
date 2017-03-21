@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Carrera;
 use App\Materia;
 use App\ProgramaEstudio;
+use App\MateriaCarrera;
 
 class materiasController extends Controller
 {
@@ -27,14 +28,12 @@ class materiasController extends Controller
 
     public function abrirPDF($id)
     {
-        $programas = DB::table('programas_estudio')->where('materia_id','=',$id)
-                    ->take(1)
-                    ->get();
-        $archivo = '';                
-        foreach ($programas as $p) {
-            $archivo = $p->archivo;         
-        }            
-        
+        $archivo = "";                
+        $programa = ProgramaEstudio::where('materia_id','=',$id)->first();
+            
+        if ($programa != NULL)
+            $archivo = $programa->archivo;
+         
         if ($archivo!=''){
             $path = storage_path($archivo);
             return Response::make(file_get_contents($path), 200, [
@@ -54,28 +53,45 @@ class materiasController extends Controller
         return view('registrarMateria',compact('carreras')); 
     }
 
-    public function editarMateria($id)
+    public function editarMateria($carrera_id,$id)
     {
         $carreras = Carrera::all();
+        $carrera = Carrera::find($carrera_id);
+        
         $materia = Materia::find($id);
-        $materiaCarrera = DB::table('materias_carreras')
-                          ->join('carreras','materias_carreras.carrera_id','carreras.id')
+        $carrerasIn = DB::table('carreras')
+                          ->join('materias_carreras','materias_carreras.carrera_id','carreras.id')
                           ->where('materias_carreras.materia_id','=',$id)
-                          ->select('materias_carreras.*','carreras.nombre as carrera')
-                          ->get();  
-        $programa = DB::table('programas_estudio')
-                    ->where('programas_estudio.materia_id','=',$id)
-                    ->select('programas_estudio.*')
-                    ->take(1);
-
-        return view('editarMateria',compact('carreras','materia','materiaCarrera','programa')); 
+                          ->select('carreras.*')
+                          ->get();
+        $carrerasNotIn = DB::table('carreras')
+                         ->whereNotIn('id', function($query) use ($id)
+                            {
+                                $query->select(DB::raw('carrera_id'))
+                                      ->from('materias_carreras')
+                                      ->where('materias_carreras.materia_id','=',$id);
+                            })
+                        ->get();      
+                                
+        $programa = ProgramaEstudio::where('materia_id','=',$id)->first();
+        if ($programa == NULL)
+            $archivo = $programa->archivo;
+        else
+            $archivo = "";                        
+        dd($archivo);
+        return view('editarMateria',compact('carrerasIn','carrerasNotIn','materia','archivo','carrera','carreras')); 
     }
 
     public function guardarMateria(Request $datos)
     {
         $archivo = $datos->file('archivo');
-        $nombre = $archivo->getClientOriginalName();
-        $nombre = quitarAcentos($nombre);
+        if ($archivo != NULL){
+            $nombre = $archivo->getClientOriginalName();
+            $nombre = $this->quitarAcentos($nombre);
+        }
+        else{
+            $nombre = "";
+        }
         
         $materia = new Materia();
         $materia->clave = $datos->input('clave');
@@ -94,13 +110,56 @@ class materiasController extends Controller
         {
             if (($datos->input($c->id))=='on')
             {
-                $materiasCarreras = new CarrerasMaterias();
+                $materiasCarreras = new MateriaCarrera();
                 $materiasCarreras->materia_id = $idMateria;
                 $materiasCarreras->carrera_id = $c->id;
                 $materiasCarreras->save();
             }    
-        }    
-        guardarArchivo($archivo,$nombre);
+        }
+        if ($archivo != NULL)    
+            $this->guardarArchivo($archivo,$nombre);
+        return back();
+    }
+
+    public function actualizarMateria($id, Request $datos)
+    {
+        $archivo = $datos->file('archivo');
+        if ($archivo != NULL){
+            $nombre = $archivo->getClientOriginalName();
+            $nombre = $this->quitarAcentos($nombre);
+        }
+        else{
+            $nombre = "";
+        }
+
+        $materia = Materia::find($id);
+        $materia->clave = $datos->input('clave');
+        $materia->nombre = $datos->input('nombre');
+        $materia->save();
+        
+        $programa = ProgramaEstudio::where('materia_id','=',$id)->first();
+        if ($programa == NULL)
+            $programa = new ProgramaEstudio();
+        $programa->materia_id = $id;
+        $programa->archivo = $nombre;
+        $programa->save();
+        
+        $rs = MateriaCarrera::where('materia_id','=',$id)->delete();
+
+        $carreras = Carrera::all();
+        foreach($carreras as $c)
+        {
+            if (($datos->input($c->id))=='on')
+            {
+                $materiasCarreras = new MateriaCarrera();
+                $materiasCarreras->materia_id = $id;
+                $materiasCarreras->carrera_id = $c->id;
+                $materiasCarreras->save();
+            }    
+        }
+        if ($archivo != NULL)    
+            $this->guardarArchivo($archivo,$nombre);
+        return back();   
     }
 
     public function guardarArchivo($archivo,$nombre)
@@ -109,9 +168,17 @@ class materiasController extends Controller
         file_put_contents($ruta, $archivo);
     }
 
-    function quitarAcentos($string)
+    public function quitarAcentos($string)
     {
         return strtr($string,'àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ',
                      'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
+    }
+
+    public function eliminarMateria($carrera,$id)
+    {
+        $filasEliminadas = DB::table('materias_carreras')
+                           ->whereCarreraIdAndMateriaId($carrera,$id)
+                           ->delete();
+        return back();
     }
 }

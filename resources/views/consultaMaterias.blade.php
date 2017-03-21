@@ -32,12 +32,12 @@
 			<tr>
 				<td>{{$m->clave}}</td>
 				<td>{{$m->nombre}}</td>
-				<td><a href="{{url('abrirPDF')}}/{{$m->programa_id}}" target="_blank">{{$m->archivo}}</a></td>
+				<td><a href="{{url('abrirPDF')}}/{{$m->id}}" target="_blank">{{$m->archivo}}</a></td>
 				<td>
 					<a href="{{url('editarMateria')}}/{{$carrera->id}}/{{$m->id}}" class="btn btn-xs btn-primary">
 						<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 					</a>
-					<a href="{{url('eliminarMateria')}}/{{$m->id}}" type="button" class="btn btn-danger btn-xs" >
+					<a href="{{url('eliminarMateria')}}/{{$carrera->id}}/{{$m->id}}" type="button" class="btn btn-danger btn-xs" >
 					  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 					</button>
 				</td>
