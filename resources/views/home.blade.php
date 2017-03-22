@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('titulo')
-	<h2 class="page-header">Bienvenido al Sistema de Materias del Instituto Tecnológico de Culiacán</h2>
+	<h2 class="page-header">Sistema de Materias del IT Culiacán</h2>
 @stop
 
 @section('lista')
@@ -18,9 +18,16 @@
 @stop
 
 @section('contenido')
-  <h1>Sistema Materias del IT Culiacán</h1>
+  <img src="{{asset('images/tec.png') }}" with="200" height="200" align="right">
   <p>Este es un sistema en el que se muestran algunas carreras que se ofrecen en el Instituto Tecnológico de Culiacán.
-  	 Aquí puedes las materias que forman parte de la retícula de cada carrera que está disponible. </p>
+  	 Aquí puedes consultar las materias que forman parte de la retícula de cada carrera que está disponible. 
+  	 Además puedes realizar las siguientes acciones:
+  	 <ul>
+  	 	<li>Registrar Materias</li>
+  	 	<li>Registrar Carreras</li>
+  	 	<li>Consultar los programas de estudio de las materias</li>
+  	 </ul>
+  	 </p>
 
 @stop
 

@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('titulo')
-	<h2>Modificación de Programa de la Materia: {{$materia->clave}}</h2>
+	<h2>Modificación de Programa de la Materia: {{$materia->nombre}}</h2>
 	<hr>
 @stop
 

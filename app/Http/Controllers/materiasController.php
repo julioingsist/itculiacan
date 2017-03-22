@@ -74,11 +74,11 @@ class materiasController extends Controller
                         ->get();      
                                 
         $programa = ProgramaEstudio::where('materia_id','=',$id)->first();
-        if ($programa == NULL)
+        if ($programa != NULL)
             $archivo = $programa->archivo;
         else
             $archivo = "";                        
-        dd($archivo);
+        
         return view('editarMateria',compact('carrerasIn','carrerasNotIn','materia','archivo','carrera','carreras')); 
     }
 
@@ -164,8 +164,8 @@ class materiasController extends Controller
 
     public function guardarArchivo($archivo,$nombre)
     {
-        $ruta=storage_path($nombre);
-        file_put_contents($ruta, $archivo);
+        $ruta=storage_path();
+        $archivo->move($ruta, $nombre);
     }
 
     public function quitarAcentos($string)
