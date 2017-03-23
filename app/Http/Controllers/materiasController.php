@@ -9,6 +9,7 @@ use App\Carrera;
 use App\Materia;
 use App\ProgramaEstudio;
 use App\MateriaCarrera;
+use File;
 
 class materiasController extends Controller
 {
@@ -123,10 +124,16 @@ class materiasController extends Controller
 
     public function actualizarMateria($id, Request $datos)
     {
+        $archivoOriginal = "";
+        $programa = ProgramaEstudio::where('materia_id','=',$id)->first();
+        if ($programa != NULL)
+            $archivoOriginal = $programa->archivo;    
         $archivo = $datos->file('archivo');
         if ($archivo != NULL){
             $nombre = $archivo->getClientOriginalName();
             $nombre = $this->quitarAcentos($nombre);
+            if ($archivoOriginal != "")
+                File::delete(storage_path().$archivoOriginal);
         }
         else{
             $nombre = "";
